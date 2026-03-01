@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Skill Analyzer</h2>
+
+<form method="POST" action="{{ url_for('analyze') }}">
+<div style="text-align: center;">
+    <label>Select Role:</label>
+    <select name="role" required>
+        {% for role in roles %}
+            <option value="{{ role }}">{{ roles[role] }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <label>Enter Your Skills (comma separated):</label>
+    <input type="text" name="skills" placeholder="html, css, python" required>
+
+    <br><br>
+
+    <button type="submit">Analyze</button>
+    </div>
+
+</form>
+
+{% endblock %}

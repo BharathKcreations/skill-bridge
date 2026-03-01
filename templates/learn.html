@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="text-align: center;">
+
+<h2>Select a Career Path to Learn</h2>
+
+<form method="POST">
+
+    <select name="role" required>
+        {% for role in roles %}
+            <option value="{{ role }}">{{ role }}</option>
+        {% endfor %}
+    </select>
+
+    <br><br>
+
+    <button type="submit">Start Learning</button>
+    </div>
+
+</form>
+
+{% endblock %}

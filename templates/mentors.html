@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mentors-container">
+
+    <div class="mentors-card">
+        <h2>Recommended Mentors</h2>
+
+        {% if mentors %}
+            <ul class="mentor-list">
+                {% for mentor in mentors %}
+                    <li>
+                        <h3>{{ mentor.name }}</h3>
+                        <p>{{ mentor.experience }}</p>
+                        <span class="match-score">
+                            Match Score: {{ mentor.match_score }}
+                        </span>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No mentors available for your current selection.</p>
+        {% endif %}
+    </div>
+
+</div>
+
+
+{% endblock %}

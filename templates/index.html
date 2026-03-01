@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<section class="hero">
+    <h1>Bridge Your Skill Gap.<br>Build Your Future.</h1>
+    <p>Analyze your skills and connect with mentors.</p>
+
+    <a href="{{ url_for('analyzer') }}" class="primary-btn">
+        Check My Skills
+    </a>
+
+    <a href="{{ url_for('learn') }}" class="secondary-btn">
+        I am a Fresher
+    </a>
+
+</section>
+
+<section class="purpose">
+
+    <h2>Our Mission</h2>
+
+    <p>
+        SkillBridge is designed to help students identify their skill gaps,
+        explore career paths, and connect with the right mentors.
+    </p>
+
+    <div class="purpose-features">
+
+        <div class="feature-card">
+            <h3>Skill Gap Detection</h3>
+            <p>
+                Analyze your existing skills and find what you need to improve
+                for your dream career.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Career Roadmap</h3>
+            <p>
+                Freshers can explore required skills for any role and
+                start their learning journey confidently.
+            </p>
+        </div>
+
+        <div class="feature-card">
+            <h3>Smart Mentor Matching</h3>
+            <p>
+                Get connected with mentors ranked by relevance to
+                your skill needs.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+{% endblock %}
