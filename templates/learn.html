@@ -5,7 +5,7 @@
 
 <h2>Select a Career Path to Learn</h2>
 
-<form method="POST">
+<form action="{{ url_for('start_learning') }}" method="POST">
 
     <select name="role" required>
         {% for role in roles %}

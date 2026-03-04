@@ -1,29 +1,27 @@
 {% extends "base.html" %}
-
 {% block content %}
-<div class="mentors-container">
 
-    <div class="mentors-card">
-        <h2>Recommended Mentors</h2>
+<h2 style="text-align: center;">available mentors</h2>
 
-        {% if mentors %}
-            <ul class="mentor-list">
-                {% for mentor in mentors %}
-                    <li>
-                        <h3>{{ mentor.name }}</h3>
-                        <p>{{ mentor.experience }}</p>
-                        <span class="match-score">
-                            Match Score: {{ mentor.match_score }}
-                        </span>
-                    </li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No mentors available for your current selection.</p>
-        {% endif %}
-    </div>
+{% if mentors|length == 0 %}
+    <p>No mentors available.</p>
+{% else %}
 
-</div>
+    {% for mentor in mentors %}
 
+        <div class="mentor-card" style="text-align: center;">
+            <h3>{{ mentor.name }}</h3>
+            <p>{{ mentor.experience }}</p>
+            <p>Match Score: {{ mentor.match_score }}%</p>
+
+            <form action="{{ url_for('connect') }}" method="POST">
+                <input type="hidden" name="mentor_name" value="{{ mentor.name }}">
+                <button type="submit">Request Session</button>
+            </form>
+        </div>
+
+    {% endfor %}
+
+{% endif %}
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from flask import Flask, render_template,request,session,redirect
+from flask import Flask, render_template,request,session,redirect,url_for
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -14,6 +14,7 @@ def analyzer():
         "ai": "AI Engineer",
         "cyber": "Cyber Security Analyst", 
         "mobile": "Mobile App Developer"
+
     }
 
      return render_template("analyzer.html", roles=roles)
@@ -57,48 +58,73 @@ mentors_data = [
     {
         "name": "Arjun",
         "skills": ["html", "css", "react", "git"],
-        "experience": "Frontend Developer"
+        "experience": "Frontend Developer",
+        "email": "arjun@skillbridge.com"
     },
     {
         "name": "Priya",
         "skills": ["python", "machine learning", "sql"],
-        "experience": "ML Engineer"
+        "experience": "ML Engineer",
+        "email": "priya@skillbridge.com"
     },
     {
         "name": "Rahul",
         "skills": ["networking", "linux", "ethical hacking"],
-        "experience": "Cyber Security Analyst"
+        "experience": "Cyber Security Analyst",
+        "email": "rahul@skillbridge.com"
     }
 ]
-    
 @app.route("/mentors")
 def mentors():
 
     missing_skills = session.get("missing_skills", [])
+    selected_role = session.get("role", "").lower()
 
     smart_matches = []
 
     for mentor in mentors_data:
 
-     overlap = set(mentor["skills"]) & set(missing_skills)
-     score = len(overlap)
+        mentor_skills = [s.lower() for s in mentor["skills"]]
 
-     if score > 0:
-        smart_matches.append({
-            "name": mentor["name"],
-            "experience": mentor["experience"],
-            "match_score": score
-        })
+        overlap = set(mentor_skills) & set(missing_skills)
 
-# Sort by best match first
+        if not missing_skills:
+            continue
+
+        match_percentage = int((len(overlap) / len(missing_skills)) * 100)
+
+        role_bonus = 0
+
+        if selected_role in mentor["experience"].lower():
+            role_bonus = 10   # small intelligent boost
+
+        final_score = match_percentage + role_bonus
+
+        if final_score > 0:
+            smart_matches.append({
+                "name": mentor["name"],
+                "experience": mentor["experience"],
+                "match_score": final_score
+            })
+
     smart_matches.sort(key=lambda x: x["match_score"], reverse=True)
 
-    return render_template(
-        "mentors.html",
-         mentors=smart_matches
-    )
-@app.route("/learn", methods=["GET", "POST"])
+    return render_template("mentors.html", mentors=smart_matches)
+@app.route("/learn")
 def learn():
+    roles = {
+        "web": "Web Developer",
+        "data": "Data Scientist",
+        "ai": "AI Engineer",
+        "cyber": "Cyber Security Analyst",
+        "mobile": "Mobile App Developer"
+    }
+
+    return render_template("learn.html", roles=roles)
+
+@app.route("/start_learning", methods=["POST"])
+def start_learning():
+    role = request.form["role"]
 
     role_skills = {
         "web": ["html","css","javascript","react","git"],
@@ -108,23 +134,31 @@ def learn():
         "mobile": ["flutter","dart","firebase","ui design"]
     }
 
-    if request.method == "POST":
-        role = request.form["role"]
+    required_skills = role_skills.get(role, [])
 
-        required_skills = role_skills.get(role, [])
+    session["missing_skills"] = required_skills
+    session["role"] = role
+    return redirect(url_for("mentors"))
+@app.route("/connect", methods=["POST"])
+def connect():
+    mentor_name = request.form["mentor_name"]
 
-        # Fresher has no skills
-        session["missing_skills"] = required_skills
-        session["role"] = role
+    # find mentor details
+    selected_mentor = None
+    for mentor in mentors_data:
+        if mentor["name"] == mentor_name:
+            selected_mentor = mentor
+            break
 
-        return redirect("/mentors")
+    if not selected_mentor:
+        return "Mentor not found"
 
-    return render_template("learn.html", roles=role_skills)
- 
-            
-    
+    # Here you could store request in DB later
+    # For now just simulate request success
 
+    return render_template(
+        "connection_success.html",
+        mentor=selected_mentor
+    )
 if __name__ == "__main__":
     app.run(debug=True)
-
- 
