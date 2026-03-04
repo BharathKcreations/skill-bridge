@@ -4,14 +4,13 @@
     <title>SkillBridge</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
 </head>
 <body>
 <nav class="navbar">
 
     <div class="logo">
-        <a href="{{ url_for('home') }}">
-            <span class="logo-text">SkillBridge</span>
-        </a>
+        <a href="{{ url_for('home') }}">SkillBridge</a>
     </div>
 
     <div class="nav-links">
@@ -21,9 +20,17 @@
     </div>
 
 </nav>
-
+<div class="page-content" data-aos="fade-up">
 {% block content %}
 {% endblock %}
+</div>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
+<script>
+AOS.init({
+duration:1000,
+once:true
+});
+</script>
 </body>
 </html>

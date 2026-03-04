@@ -2,58 +2,106 @@
 
 {% block content %}
 
-<section class="hero">
-    <h1>Bridge Your Skill Gap.<br>Build Your Future.</h1>
-    <p>Analyze your skills and connect with mentors.</p>
+<!-- HERO SECTION -->
 
-    <a href="{{ url_for('analyzer') }}" class="primary-btn">
-        Check My Skills
-    </a>
+<section class="hero-main">
 
-    <a href="{{ url_for('learn') }}" class="secondary-btn">
-        I am a Fresher
-    </a>
+<div class="hero-left" data-aos="fade-right">
+
+<h1 class="hero-title">
+Bridge Your <span>Skill Gap</span><br>
+Build Your Future
+</h1>
+
+<p class="hero-sub">
+SkillBridge helps students analyze their skills,
+discover what they need to learn, and connect
+with mentors who guide them toward their career goals.
+</p>
+
+<div class="hero-buttons">
+
+<a href="{{ url_for('analyzer') }}" class="btn-primary">
+Check My Skills
+</a>
+
+<a href="{{ url_for('learn') }}" class="btn-secondary">
+Start Learning
+</a>
+
+</div>
+
+</div>
+
+
+<div class="hero-right" data-aos="fade-left">
+
+<img src="{{ url_for('static', filename='hero.svg') }}">
+
+</div>
 
 </section>
+
+
+<!-- FEATURES SECTION -->
 
 <section class="purpose">
 
-    <h2>Our Mission</h2>
+<h2 data-aos="fade-up">How SkillBridge Works</h2>
 
-    <p>
-        SkillBridge is designed to help students identify their skill gaps,
-        explore career paths, and connect with the right mentors.
-    </p>
+<p data-aos="fade-up">
+SkillBridge guides learners from identifying skill gaps
+to connecting with the right mentors for career growth.
+</p>
 
-    <div class="purpose-features">
+<div class="purpose-features">
 
-        <div class="feature-card">
-            <h3>Skill Gap Detection</h3>
-            <p>
-                Analyze your existing skills and find what you need to improve
-                for your dream career.
-            </p>
-        </div>
+<div class="feature-card" data-aos="zoom-in">
 
-        <div class="feature-card">
-            <h3>Career Roadmap</h3>
-            <p>
-                Freshers can explore required skills for any role and
-                start their learning journey confidently.
-            </p>
-        </div>
+<h3>Skill Gap Detection</h3>
 
-        <div class="feature-card">
-            <h3>Smart Mentor Matching</h3>
-            <p>
-                Get connected with mentors ranked by relevance to
-                your skill needs.
-            </p>
-        </div>
+<p>
+Analyze your existing skills and discover what you
+need to improve for your dream career.
+</p>
 
-    </div>
+</div>
+
+
+<div class="feature-card" data-aos="zoom-in">
+
+<h3>Career Roadmap</h3>
+
+<p>
+Freshers can explore the required skills for any role
+and begin their learning journey confidently.
+</p>
+
+</div>
+
+
+<div class="feature-card" data-aos="zoom-in">
+
+<h3>Smart Mentor Matching</h3>
+
+<p>
+Connect with mentors ranked by relevance to
+your skill requirements.
+</p>
+
+</div>
+
+</div>
 
 </section>
+<section class="quote-section">
 
+<p class="quote">
+"The future belongs to those who learn more skills and combine them creatively."
+</p>
+
+<p class="author">— Robert Greene</p>
+
+</section>
 
 {% endblock %}

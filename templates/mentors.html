@@ -1,27 +1,75 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2 style="text-align: center;">available mentors</h2>
+<!-- HERO SECTION -->
+
+<section class="hero-section">
+
+<div class="hero-text" data-aos="fade-right">
+
+<h1>Find the Right Mentor</h1>
+
+<p>
+SkillBridge helps learners connect with experienced mentors
+who guide them in developing the skills needed for their
+career path.
+</p>
+
+</div>
+
+<div class="hero-image" data-aos="fade-left">
+
+<img src="{{ url_for('static', filename='mentor.svg') }}">
+
+</div>
+
+</section>
+
+
+<h2 style="text-align:center;" data-aos="fade-up">Available Mentors</h2>
+
 
 {% if mentors|length == 0 %}
-    <p>No mentors available.</p>
+
+<p style="text-align:center;">No mentors available.</p>
+
 {% else %}
 
-    {% for mentor in mentors %}
+<div class="mentor-container">
 
-        <div class="mentor-card" style="text-align: center;">
-            <h3>{{ mentor.name }}</h3>
-            <p>{{ mentor.experience }}</p>
-            <p>Match Score: {{ mentor.match_score }}%</p>
+{% for mentor in mentors %}
 
-            <form action="{{ url_for('connect') }}" method="POST">
-                <input type="hidden" name="mentor_name" value="{{ mentor.name }}">
-                <button type="submit">Request Session</button>
-            </form>
-        </div>
+<div class="mentor-card" data-aos="zoom-in" style="text-align: center;">
 
-    {% endfor %}
+<h3>{{ mentor.name }}</h3>
+
+<p>{{ mentor.experience }}</p>
+
+<p>Match Score: {{ mentor.match_score }}%</p>
+
+<form action="{{ url_for('connect') }}" method="POST">
+
+<input type="hidden" name="mentor_name" value="{{ mentor.name }}">
+
+<button type="submit">Request Session</button>
+
+</form>
+
+</div>
+
+{% endfor %}
+
+</div>
 
 {% endif %}
+<section class="quote-section">
+
+<p class="quote">
+"A mentor is someone who allows you to see the hope inside yourself."
+</p>
+
+
+
+</section>
 
 {% endblock %}
