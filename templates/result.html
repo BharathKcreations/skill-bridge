@@ -1,34 +1,182 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html>
 
-{% block content %}
-<div class="result-container">
+<head>
+<title>Final Result</title>
 
-    <div class="result-card">
-        <h2>Skill Gap Analysis Result</h2>
+<style>
 
-        <p class="score">Match Score: <span>{{ percentage }}%</span></p>
+body{
+margin:0;
+font-family: Arial, Helvetica, sans-serif;
+background: linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+text-align:center;
+padding:40px;
+}
 
-        {% if is_perfect_match %}
-            <p class="perfect">
-                🎉 You are fully qualified for this role!
-            </p>
-        {% else %}
-            <h3>You need to improve:</h3>
+.container{
+max-width:800px;
+margin:auto;
+background:#1e293b;
+padding:30px;
+border-radius:12px;
+box-shadow:0 0 20px rgba(0,0,0,0.4);
+}
 
-            <ul class="skill-list">
-                {% for skill in missing_skills %}
-                    <li>{{ skill }}</li>
-                {% endfor %}
-            </ul>
-           <div class="mentor-btn-container">
-    <a href="{{ url_for('mentors') }}" class="mentor-btn">🚀 Find Mentor</a>
+.card{
+background:#0f172a;
+padding:20px;
+margin:20px 0;
+border-radius:10px;
+}
+
+.score{
+font-size:28px;
+font-weight:bold;
+color:#38bdf8;
+}
+
+ul{
+text-align:left;
+}
+
+li{
+margin-bottom:15px;
+}
+
+.btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+background:#38bdf8;
+color:black;
+text-decoration:none;
+font-weight:bold;
+border-radius:8px;
+}
+
+.btn:hover{
+background:#0ea5e9;
+}
+
+.fail{
+color:#f87171;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.pass{
+color:#4ade80;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>📊 Final Skill Assessment Result</h1>
+
+
+<!-- Test Performance -->
+<div class="card">
+
+<h2>Test Performance</h2>
+
+<p><b>Total Questions:</b> {{ total }}</p>
+
+<p><b>Attempted Questions:</b> {{ attempted }}</p>
+
+<p><b>Correct Answers:</b> {{ correct }}</p>
+
+<p class="score">Test Score: {{ score }}%</p>
+
+{% if score < 60 %}
+
+<p class="fail">
+⚠ You need to improve your {{ role }} fundamentals.
+</p>
+
+{% else %}
+
+<p class="pass">
+✅ Great! You passed the skill validation.
+</p>
+
+{% endif %}
+
 </div>
 
-            {% endif %}
-        
-    </div>
+<div class="card">
+
+<h2>Incorrect Answers</h2>
+
+{% if wrong_answers %}
+
+<ul>
+
+{% for item in wrong_answers %}
+
+<li>
+<b>Question:</b> {{ item.question }} <br>
+<b>Your Answer:</b> {{ item.user_answer }} <br>
+<b>Correct Answer:</b> {{ item.correct_answer }}
+</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>🎉 Excellent! All answers are correct.</p>
+
+{% endif %}
 
 </div>
 
 
-{% endblock %}
+<!-- Skill Gap Analyzer -->
+<div class="card">
+
+<h2>🎯 Skill Gap Analyzer Result</h2>
+
+{% if missing_skills %}
+
+<p><b>Skills to Improve:</b></p>
+
+<ul>
+
+{% for skill in missing_skills %}
+
+<li>{{ skill }}</li>
+
+{% endfor %}
+
+</ul>
+
+{% else %}
+
+<p>Great! You already have the required skills.</p>
+
+{% endif %}
+
+</div>
+
+
+
+<a href="{{ url_for('mentors') }}" class="btn">
+
+Find Mentors
+
+</a>
+
+</div>
+
+</body>
+
+</html>

@@ -1,32 +1,43 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="text-align: center;">
+
+<div class="result-container">
+
+<div class="result-card">
 
 <h2>Select a Career Path to Learn</h2>
 
-<form action="{{ url_for('start_learning') }}" method="POST">
+<form action="/mentors" method="GET">
 
-    <select name="role" required>
-        {% for role in roles %}
-            <option value="{{ role }}">{{ role }}</option>
-        {% endfor %}
-    </select>
+<select name="role" required style="padding:10px;border-radius:6px;margin-top:15px;">
 
-    <br><br>
+<option value="">-- Select Career Path --</option>
 
-    <button type="submit">Start Learning</button>
-    </div>
+{% for key, value in roles.items() %}
+
+<option value="{{ key }}">{{ value }}</option>
+
+{% endfor %}
+
+</select>
+
+<br><br>
+
+<button type="submit" class="mentor-btn">
+Start Learning
+</button>
 
 </form>
-<section class="quote-section">
 
-<p class="quote">
+<br><br>
+
+<p style="color:#22d3ee;font-style:italic;">
 "Learning never exhausts the mind."
 </p>
 
+</div>
 
-
-</section>
+</div>
 
 {% endblock %}

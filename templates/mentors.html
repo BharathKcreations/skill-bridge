@@ -2,6 +2,11 @@
 {% block content %}
 
 <!-- HERO SECTION -->
+ <div style="text-align:center;margin-bottom:25px;">
+<a href="/peer_mentor" class="mentor-btn">
+Become a Peer Mentor 🚀
+</a>
+</div>
 
 <section class="hero-section">
 
@@ -46,12 +51,13 @@ career path.
 <p>{{ mentor.experience }}</p>
 
 <p>Match Score: {{ mentor.match_score }}%</p>
-
 <form action="{{ url_for('connect') }}" method="POST">
 
 <input type="hidden" name="mentor_name" value="{{ mentor.name }}">
 
-<button type="submit">Request Session</button>
+<button type="submit" class="mentor-btn">
+Request Session
+</button>
 
 </form>
 
