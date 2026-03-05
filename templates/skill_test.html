@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="result-container">
+
+<div class="result-card">
+
+<h2>Skill Assessment Test</h2>
+
+<p style="color:#22d3ee; margin-bottom:25px;">
+Answer the questions below to validate your skills
+</p>
+
+<form action="{{ url_for('submit_test') }}" method="POST">
+
+{% for q in questions %}
+
+{% set q_index = loop.index0 %}
+
+<div style="margin-bottom:30px; text-align:left;">
+
+<p style="font-weight:bold; font-size:17px; margin-bottom:12px;">
+Question {{ loop.index }}: {{ q.question }}
+</p>
+
+{% for option in q.options %}
+
+<label style="display:block; margin:8px 0; cursor:pointer; font-size:15px;">
+
+<input
+type="radio"
+name="q{{ q_index }}"
+value="{{ option }}"
+required
+style="margin-right:10px;"
+
+>
+
+{{ option }}
+
+</label>
+
+{% endfor %}
+
+</div>
+
+{% endfor %}
+
+<div style="text-align:center; margin-top:20px;">
+
+<button type="submit" class="mentor-btn">
+Submit Test 🚀
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+{% endblock %}

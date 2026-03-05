@@ -96,46 +96,48 @@ margin-bottom:35px;
 line-height:1.7;
 }
 
-/* buttons */
+/* ================= BIGGER BUTTONS ================= */
 
 .hero-buttons{
 display:flex;
-gap:25px;
+gap:30px;
+justify-content:center;
+margin-top:20px;
 }
 
 .btn-primary{
 background:#22d3ee;
 color:#0f172a;
-padding:14px 28px;
-border-radius:8px;
+padding:18px 40px;     /* bigger padding */
+border-radius:10px;
 text-decoration:none;
-font-weight:600;
+font-weight:700;
+font-size:18px;        /* bigger text */
 transition:0.3s;
+cursor:pointer;
 }
 
 .btn-secondary{
 border:2px solid #22d3ee;
 color:#22d3ee;
-padding:14px 28px;
-border-radius:8px;
+padding:18px 40px;     /* bigger padding */
+border-radius:10px;
 text-decoration:none;
-font-weight:600;
+font-weight:700;
+font-size:18px;        /* bigger text */
 transition:0.3s;
+cursor:pointer;
 }
 
 .btn-primary:hover{
 background:#38bdf8;
-transform:translateY(-3px);
+transform:translateY(-3px) scale(1.05);
 }
 
 .btn-secondary:hover{
 background:#22d3ee;
 color:#0f172a;
-transform:translateY(-3px);
-}
-
-.hero-right img{
-width:420px;
+transform:translateY(-3px) scale(1.05);
 }
 
 /* ================= PURPOSE SECTION ================= */
@@ -363,3 +365,115 @@ animation:float 4s ease-in-out infinite;
 50%{transform:translateY(-10px);}
 100%{transform:translateY(0);}
 }
+@keyframes float{
+0%{transform:translateY(0);}
+50%{transform:translateY(-10px);}
+100%{transform:translateY(0);}
+}
+
+/* ================= BIG ANALYZE BUTTON ================= */
+
+.big-btn{
+padding:22px 70px;
+font-size:22px;
+border-radius:14px;
+border:none;
+background:#22d3ee;
+color:#0f172a;
+font-weight:700;
+letter-spacing:1px;
+cursor:pointer;
+transition:all 0.3s ease;
+box-shadow:0 8px 20px rgba(34,211,238,0.4);
+}
+
+.big-btn:hover{
+background:#38bdf8;
+transform:translateY(-5px) scale(1.05);
+box-shadow:0 12px 25px rgba(34,211,238,0.6);
+}
+/* ================= SKILL ANALYZER FORM ================= */
+
+select{
+padding:10px 18px;
+font-size:16px;
+border-radius:6px;
+border:none;
+margin-left:10px;
+}
+
+input[type="text"]{
+padding:12px 20px;
+font-size:16px;
+width:300px;
+border-radius:6px;
+border:none;
+margin-top:10px;
+}
+
+button{
+padding:12px 30px;
+font-size:16px;
+border-radius:8px;
+border:none;
+background:#22d3ee;
+color:#0f172a;
+font-weight:bold;
+cursor:pointer;
+margin-top:15px;
+transition:0.3s;
+}
+
+button:hover{
+background:#38bdf8;
+transform:scale(1.05);
+}
+.mentor-btn-container{
+margin-top:20px;
+text-align:center;
+}
+
+.mentor-btn{
+display:inline-block;
+padding:12px 28px;
+background:#22d3ee;
+color:#0f172a !important;
+font-weight:bold;
+border-radius:8px;
+text-decoration:none !important;
+font-size:16px;
+transition:all 0.3s ease;
+box-shadow:0 5px 15px rgba(34,211,238,0.35);
+}
+
+.mentor-btn-container{
+margin-top:20px;
+text-align:center;
+}
+.find-mentor{
+background-color:#7ee0d6;
+color:#0f172a;
+border:none;
+padding:12px 30px;
+border-radius:8px;
+font-size:16px;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.find-mentor:hover{
+background-color:#5fd3c8;
+}
+.primary-btn{
+background-color:#7ee0d6 !important;
+color:#0f172a !important;
+padding:12px 30px;
+border-radius:8px;
+text-decoration:none;
+font-weight:600;
+display:inline-block;
+border:none;
+margin-top:15px;
+}
+

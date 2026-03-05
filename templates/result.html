@@ -20,10 +20,10 @@
                     <li>{{ skill }}</li>
                 {% endfor %}
             </ul>
+           <div class="mentor-btn-container">
+    <a href="{{ url_for('mentors') }}" class="mentor-btn">🚀 Find Mentor</a>
+</div>
 
-            <a href="{{ url_for('mentors') }}" class="primary-btn">
-                Find Mentor
-            </a>
             {% endif %}
         
     </div>
