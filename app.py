@@ -255,54 +255,49 @@ mentors_data = [
 
 {"name":"Arjun",
 "skills":["html","css","react","git"],
-"experience":"Frontend Developer"},
+"experience":"Frontend Developer",
+"email":"Arjun@gmail.com"
+},
 
 {"name":"Priya",
 "skills":["python","machine learning","sql"],
-"experience":"ML Engineer"},
+"experience":"ML Engineer",
+"email":"Priya@gmail.com"
+},
 
 {"name":"Rahul",
 "skills":["networking","linux","ethical hacking"],
-"experience":"Cyber Security Analyst"}
+"experience":"Cyber Security Analyst",
+"email":"Rahul@gmail.com"
+}
 
 ]
 
 peer_mentors = []
 
-
-# ---------------- PEER MENTOR PAGE ----------------
-
-@app.route("/peer_mentor")
-def peer_mentor():
-    return render_template("peer_mentor.html")
-
-
-@app.route("/register_peer", methods=["POST"])
-def register_peer():
-
-    name = request.form["name"]
-    skills = request.form["skills"]
-    experience = request.form["experience"]
-
-    peer_mentors.append({
-        "name":name,
-        "skills":skills.lower().split(","),
-        "experience":experience
-    })
-
-    return redirect(url_for("mentors"))
-
-
-# ---------------- MENTORS ----------------
-
 @app.route("/mentors")
 def mentors():
 
-    missing_skills = session.get("missing_skills",[])
-    selected_role = session.get("role","").lower()
+    selected_role = request.args.get("role")
+
+    role_skills = {
+        "web": ["html","css","javascript","react","git"],
+        "data": ["python","pandas","numpy","machine learning","sql"],
+        "ai": ["python","deep learning","tensorflow","nlp"],
+        "cyber": ["networking","linux","ethical hacking","cryptography"],
+        "mobile": ["flutter","dart","firebase","ui design"]
+    }
+
+    # If coming from Learn page
+    if selected_role:
+        missing_skills = role_skills.get(selected_role, [])
+        session["missing_skills"] = missing_skills
+        session["role"] = selected_role
+    else:
+        missing_skills = session.get("missing_skills", [])
+        selected_role = session.get("role", "").lower()
 
     all_mentors = mentors_data + peer_mentors
-
     smart_matches = []
 
     for mentor in all_mentors:
@@ -323,15 +318,19 @@ def mentors():
 
         final_score = match_percentage + role_bonus
 
+        matched_skills = list(overlap)
+
         smart_matches.append({
-            "name":mentor["name"],
-            "experience":mentor["experience"],
-            "match_score":final_score
+            "name": mentor["name"],
+            "experience": mentor["experience"],
+            "match_score": final_score,
+            "matched_skills": matched_skills
         })
 
     smart_matches.sort(key=lambda x:x["match_score"], reverse=True)
 
     return render_template("mentors.html", mentors=smart_matches)
+
 @app.route("/connect", methods=["POST"])
 def connect():
 
@@ -365,6 +364,25 @@ def learn():
     }
 
     return render_template("learn.html", roles=roles)
+@app.route("/peer_mentor")
+def peer_mentor():
+    return render_template("peer_mentor.html")
+@app.route("/register_peer", methods=["POST"])
+def register_peer():
+
+    name = request.form["name"]
+    skills = request.form["skills"]
+    experience = request.form["experience"]
+    email = request.form["email"]
+
+    peer_mentors.append({
+        "name": name,
+        "skills": skills.lower().split(","),
+        "experience": experience,
+        "email": email
+    })
+
+    return redirect(url_for("mentors"))
 # ---------------- RUN APP ----------------
 
 if __name__ == "__main__":

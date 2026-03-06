@@ -1,61 +1,61 @@
 {% extends "base.html" %}
+
 {% block content %}
 
-<!-- HERO SECTION -->
- <div style="text-align:center;margin-bottom:25px;">
-<a href="/peer_mentor" class="mentor-btn">
+<div class="result-mentor">
+
+<!-- HEADER SECTION -->
+
+<div style="text-align:center; margin-bottom:60px;">
+
+<a href="{{ url_for('peer_mentor') }}" class="mentor-btn">
 Become a Peer Mentor 🚀
 </a>
-</div>
 
-<section class="hero-section">
-
-<div class="hero-text" data-aos="fade-right">
-
-<h1>Find the Right Mentor</h1>
-
-<p>
-SkillBridge helps learners connect with experienced mentors
-who guide them in developing the skills needed for their
-career path.
-</p>
+<h2 style="margin-top:25px;">
+Available Mentors
+</h2>
 
 </div>
 
-<div class="hero-image" data-aos="fade-left">
+{% if mentors %}
 
-<img src="{{ url_for('static', filename='mentor.svg') }}">
+<!-- MENTOR CARDS -->
 
-</div>
-
-</section>
-
-
-<h2 style="text-align:center;" data-aos="fade-up">Available Mentors</h2>
-
-
-{% if mentors|length == 0 %}
-
-<p style="text-align:center;">No mentors available.</p>
-
-{% else %}
-
-<div class="mentor-container">
+<div style="
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+">
 
 {% for mentor in mentors %}
 
-<div class="mentor-card" data-aos="zoom-in" style="text-align: center;">
+<div class="mentor-card" style="width:300px;text-align:center;">
 
 <h3>{{ mentor.name }}</h3>
 
 <p>{{ mentor.experience }}</p>
 
-<p>Match Score: {{ mentor.match_score }}%</p>
+<p><b>Match Score:</b> {{ mentor.match_score }}%</p>
+
+<p><b>Matched Skills:</b></p>
+
+<ul style="list-style:none;padding:0;">
+
+{% for skill in mentor.matched_skills %}
+
+<li>✔ {{ skill }}</li>
+
+{% endfor %}
+
+</ul>
+
 <form action="{{ url_for('connect') }}" method="POST">
 
 <input type="hidden" name="mentor_name" value="{{ mentor.name }}">
 
-<button type="submit" class="mentor-btn">
+<button class="mentor-btn">
 Request Session
 </button>
 
@@ -67,15 +67,12 @@ Request Session
 
 </div>
 
+{% else %}
+
+<p style="text-align:center;">No mentors available.</p>
+
 {% endif %}
-<section class="quote-section">
 
-<p class="quote">
-"A mentor is someone who allows you to see the hope inside yourself."
-</p>
-
-
-
-</section>
+</div>
 
 {% endblock %}
