@@ -1,9 +1,15 @@
 from flask import Flask, render_template, request, session, redirect, url_for
+from flask_pymongo import PyMongo
 import os
 
 app = Flask(__name__)
+app.config["MONGO_URI"] = "mongodb://localhost:27017/skillbridge"
+mongo = PyMongo(app)
 app.secret_key = "supersecretkey"
-
+@app.route('/test_db')
+def test_db():
+    mongo.db.test.insert_one({"msg": "DB Connected"})
+    return "Database Working!"
 
 # ---------------- HOME ----------------
 
@@ -12,7 +18,7 @@ def home():
     return render_template("index.html")
 
 
-# ---------------- ANALYZER PAGE ----------------
+# ---------------- ANALYZER PAGE ---------------- 
 
 @app.route("/analyzer")
 def analyzer():
@@ -38,6 +44,10 @@ def analyze():
 
     user_skills_list = user_skills.split(",")
     user_skills_list = [skill.strip().lower() for skill in user_skills_list]
+    mongo.db.users.insert_one({
+    "role": role,
+    "skills": user_skills_list
+})
 
     role_skills = {
         "Web": ["html","css","javascript","react","git"],
@@ -59,6 +69,10 @@ def analyze():
     session["role"] = role
 
     return redirect(url_for("skill_test"))
+@app.route('/view_users')
+def view_users():
+    users = list(mongo.db.users.find({}, {"_id": 0}))
+    return {"users": users}
 
 
 # ---------------- QUIZ QUESTIONS ----------------
@@ -250,33 +264,38 @@ def result_after_test():
         message=message
     )
 # ---------------- MENTOR DATA ----------------
+@app.route('/add_mentors')
+def add_mentors():
+    
+    mongo.db.mentors.insert_many([
+        {
+            "name": "Arjun",
+            "skills": ["html", "css", "react", "git"],
+            "experience": "Frontend Developer"
+        },
+        {
+            "name": "Priya",
+            "skills": ["python", "machine learning", "sql"],
+            "experience": "ML Engineer"
+        },
+        {
+            "name": "Rahul",
+            "skills": ["networking", "linux", "ethical hacking"],
+            "experience": "Cyber Security Analyst"
+        }
+    ])
+    return "Mentors added!"
+@app.route('/view_mentors')
+def view_mentors():
+    mentors = list(mongo.db.mentors.find({}, {"_id": 0}))
+    return {"mentors": mentors}
 
-mentors_data = [
 
-{"name":"Arjun",
-"skills":["html","css","react","git"],
-"experience":"Frontend Developer",
-"email":"Arjun@gmail.com"
-},
 
-{"name":"Priya",
-"skills":["python","machine learning","sql"],
-"experience":"ML Engineer",
-"email":"Priya@gmail.com"
-},
-
-{"name":"Rahul",
-"skills":["networking","linux","ethical hacking"],
-"experience":"Cyber Security Analyst",
-"email":"Rahul@gmail.com"
-}
-
-]
-
-peer_mentors = []
 
 @app.route("/mentors")
 def mentors():
+    db_mentors = list(mongo.db.mentors.find({}, {"_id": 0}))
 
     selected_role = request.args.get("role")
 
@@ -297,7 +316,7 @@ def mentors():
         missing_skills = session.get("missing_skills", [])
         selected_role = session.get("role", "").lower()
 
-    all_mentors = mentors_data + peer_mentors
+    all_mentors = db_mentors
     smart_matches = []
 
     for mentor in all_mentors:
@@ -337,8 +356,9 @@ def connect():
     mentor_name = request.form["mentor_name"]
 
     selected_mentor = None
+    db_mentors = list(mongo.db.mentors.find({}, {"_id": 0}))
 
-    all_mentors = mentors_data + peer_mentors
+    all_mentors = db_mentors 
 
     for mentor in all_mentors:
         if mentor["name"] == mentor_name:
@@ -375,18 +395,15 @@ def register_peer():
     experience = request.form["experience"]
     email = request.form["email"]
 
-    peer_mentors.append({
-        "name": name,
-        "skills": skills.lower().split(","),
-        "experience": experience,
-        "email": email
-    })
-
+    mongo.db.mentors.insert_one({
+    "name": name,
+    "skills": [s.strip().lower() for s in skills.split(",")],
+    "experience": experience,
+    "email": email
+})
     return redirect(url_for("mentors"))
+    
 # ---------------- RUN APP ----------------
-
 if __name__ == "__main__":
-
-    port = int(os.environ.get("PORT",10000))
-
-    app.run(host="0.0.0.0", port=port)
+ port = int(os.environ.get("PORT", 10000))
+app.run(host="0.0.0.0", port=port, debug=True)
