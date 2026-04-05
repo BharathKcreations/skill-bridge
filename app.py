@@ -3,7 +3,7 @@ from flask_pymongo import PyMongo
 import os
 
 app = Flask(__name__)
-app.config["MONGO_URI"] = "mongodb://localhost:27017/skillbridge"
+app.config["MONGO_URI"] = "mongodb+srv://skillbridge:bharathK1234@cluster0.1spcdnw.mongodb.net/skillbridge?retryWrites=true&w=majority"
 mongo = PyMongo(app)
 app.secret_key = "supersecretkey"
 @app.route('/test_db')
